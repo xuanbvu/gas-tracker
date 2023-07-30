@@ -11,12 +11,12 @@ datasource db {
 }
 
 model User {
-  id String @id @default(uuid())
+  username String @unique
 }
 
 model Stats {
   id String @id @default(uuid())
-  userId String
+  user String
   createdAt DateTime @default(now())
   gallons Decimal
   pricePer Decimal
