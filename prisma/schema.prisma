@@ -12,6 +12,8 @@ datasource db {
 
 model User {
   id String @id @default(uuid())
+  username String @unique
+  password String
 }
 
 model Stats {
@@ -21,5 +23,6 @@ model Stats {
   gallons Decimal
   pricePer Decimal
   total Decimal
-  location String
+  mileage Int
+  location String?
 }
