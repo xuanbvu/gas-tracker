@@ -1,36 +1,28 @@
 "use client"
 
-import { signIn } from 'next-auth/react'
-import { useRouter, useSearchParams } from 'next/navigation'
-import { useState } from 'react'
-import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { useState } from "react"
+import Link from "next/link"
 
-export default function LoginForm() {
+type RegisterFormProps = {
+  createUser: (username: string, password: string) => any
+}
+
+export default function RegisterForm({ createUser }: RegisterFormProps) {
   const router = useRouter()
-  const searchParams = useSearchParams()
-
+  
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
-  
-  const callbackUrl = searchParams.get('callbackUrl') || '/'
+
   const inputStyle = 'text-gray-500 px-2 py-1 rounded focus:outline-none'
-
-  async function login() {
+  
+  async function register() {
     try {
-      const res = await signIn('credentials', {
-        redirect: false,
-        username,
-        password,
-        callbackUrl
-      })
+      const res = await createUser(username, password)
 
-      if(!res?.error) router.push(callbackUrl)
-      else {
-        setError('Incorrect username or password.')
-        setUsername('')
-        setPassword('')
-      }
+      if(res) setError(res)
+      else router.push('/login')
     }
     catch(err: any) {
       setError(err)
@@ -39,7 +31,7 @@ export default function LoginForm() {
 
   return (
     <form
-      onSubmit={login}
+      onSubmit={register}
       method='post'
       className='grid gap-4 w-1/2 m-auto'
     >
@@ -66,15 +58,15 @@ export default function LoginForm() {
         type='submit'
         className='bg-gray-500 py-2 rounded hover:bg-gray-600'
       >
-        LOGIN
+        REGISTER
       </button>
       <p>
-        Don't have an account? {' '}
+        Already have an account? {' '}
         <Link
           href={'/register'}
           className='text-gray-400 hover:text-gray-500'
         >
-          Create one.
+          Sign in.
         </Link>
       </p>
     </form>
