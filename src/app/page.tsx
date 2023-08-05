@@ -1,18 +1,19 @@
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
-import SignOutForm from "@/components/SignOutForm";
+import { getServerSession } from 'next-auth'
+import { authOptions } from "./api/auth/[...nextauth]/route"
+import User from './user'
+import { LoginButton, LogoutButton } from './auth'
 
-export default function Home() {
-  const signedIn = cookies().get('gas-tracker-sign-in')
+export default async function Home() {
+  const session = await getServerSession(authOptions)
 
-  if (signedIn) {
-    return (
-      <>
-        <h1>Hello {signedIn.value}</h1>
-        <SignOutForm />
-      </>
-    )
-  }
-
-  redirect('/sign-in')
+  return (
+    <>
+      <LoginButton />
+      <LogoutButton />
+      <h2>Server Session</h2>
+      <pre>{JSON.stringify(session)}</pre>
+      <h2>Client Call</h2>
+      <User />
+    </>
+  )
 }
