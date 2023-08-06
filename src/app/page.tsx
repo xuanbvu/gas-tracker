@@ -1,19 +1,50 @@
 import { getServerSession } from 'next-auth'
 import { authOptions } from "./api/auth/[...nextauth]/route"
-import User from './user'
-import { LoginButton, LogoutButton } from './auth'
+import { LoginButton, LogoutButton } from '../components/auth'
+import User from '../components/user'
+import { prisma } from '@/db'
+import StatsItem from '@/components/stats'
+
+function getStats(id: string) {
+  return prisma.stats.findMany({
+    where: {
+      user: {
+        equals: id
+      }
+    }
+  })
+}
+
+function getAll() {
+  return prisma.stats.findMany()
+}
 
 export default async function Home() {
   const session = await getServerSession(authOptions)
+  const stats = await getAll()
 
   return (
     <>
+      <h3>Hello {session?.user.username}</h3>
       { !session && <LoginButton />}
       { session && <LogoutButton /> }
-      <h2>Server Session</h2>
-      <pre>{JSON.stringify(session)}</pre>
-      <h2>Client Call</h2>
-      <User />
+      <h1>Records</h1>
+      <table>
+        <tr>
+          <th>Date</th>
+          <th>Mileage</th>
+          <th>Gallons</th>
+          <th>Total</th>
+        </tr>
+        {stats.map(item => 
+          <StatsItem
+            createdAt={item.createdAt}
+            gallons={Number(item.gallons)}
+            total={Number(item.total)}
+            mileage={item.mileage}
+          />
+        )}
+      </table>
     </>
   )
 }

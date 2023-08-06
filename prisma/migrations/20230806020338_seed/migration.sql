@@ -8,7 +8,7 @@ CREATE TABLE "User" (
 -- CreateTable
 CREATE TABLE "Stats" (
     "id" TEXT NOT NULL PRIMARY KEY,
-    "userId" TEXT NOT NULL,
+    "user" TEXT NOT NULL,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "gallons" DECIMAL NOT NULL,
     "pricePer" DECIMAL NOT NULL,
