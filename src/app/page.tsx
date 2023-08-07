@@ -1,7 +1,6 @@
 import { getServerSession } from 'next-auth'
 import { authOptions } from "./api/auth/[...nextauth]/route"
 import { LoginButton, LogoutButton } from '../components/auth'
-import User from '../components/user'
 import { prisma } from '@/db'
 import StatsItem from '@/components/stats'
 
@@ -15,13 +14,9 @@ function getStats(id: string) {
   })
 }
 
-function getAll() {
-  return prisma.stats.findMany()
-}
-
 export default async function Home() {
   const session = await getServerSession(authOptions)
-  const stats = await getAll()
+  const stats = await getStats(session?.user.id || '')
 
   return (
     <>
