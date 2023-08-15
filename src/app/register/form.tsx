@@ -15,7 +15,7 @@ export default function RegisterForm({ createUser }: RegisterFormProps) {
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
 
-  const inputStyle = 'text-gray-500 px-2 py-1 rounded focus:outline-none'
+  const inputStyle = 'bg-gray-200 text-gray-500 px-4 py-2 rounded focus:outline-none'
   
   async function register() {
     try {
@@ -56,15 +56,15 @@ export default function RegisterForm({ createUser }: RegisterFormProps) {
       />
       <button
         type='submit'
-        className='bg-gray-500 py-2 rounded hover:bg-gray-600'
+        className='bg-gray-900 py-4 text-white rounded hover:bg-gray-600'
       >
         REGISTER
       </button>
       <p>
         Already have an account? {' '}
         <Link
-          href={'/register'}
-          className='text-gray-400 hover:text-gray-500'
+          href={'/login'}
+          className='text-gray-400 hover:text-gray-600'
         >
           Sign in.
         </Link>

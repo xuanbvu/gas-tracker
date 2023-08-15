@@ -1,19 +1,29 @@
 "use client"
 
+import { type Stats } from "@/types"
+import { BiSolidDownArrow, BiSolidUpArrow } from 'react-icons/bi'
+
 type StatsItemProps = {
-  createdAt: Date,
-  gallons: Number,
-  total: Number,
-  mileage: Number
+  stat: Stats
+  avgPrice: number
 }
 
-export default function StatsItem({ createdAt, gallons, total, mileage }: StatsItemProps) {
+export default function StatsItem({ stat, avgPrice }: StatsItemProps) {
+  const gallons = Number(stat.gallons)
+  const pricePer = Number(stat.pricePer)
+  const total = Number(stat.total)
+
   return (
-    <tr>
-      <td>{createdAt.toLocaleDateString()}</td>
-      <td>{mileage.toString()}</td>
-      <td>{gallons.toFixed(3).toString()}</td>
-      <td>${total.toFixed(2).toString()}</td>
-    </tr>
+    <div className="flex items-center gap-5 border-b-2 py-2 px-5">
+      <p className="text-xl font-bold">{stat.mileage}</p>
+      <div>
+        <p className="text-lg"><span className="font-semibold">{gallons.toFixed(3)}</span> gal @ <span className="font-semibold">${total.toFixed(2)}</span></p>
+        <p>{stat.createdAt.toLocaleDateString('default', { month: 'long', day: 'numeric' })}</p>
+      </div>
+      <div className="flex items-center gap-1">
+        <p className="text-xl font-bold text-gray-500">${pricePer.toFixed(2)}/gal</p>
+        <p>{pricePer > avgPrice ? <BiSolidUpArrow color="red" /> : <BiSolidDownArrow />}</p>
+      </div>
+    </div>
   )
 }

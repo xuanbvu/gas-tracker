@@ -14,7 +14,7 @@ export default function LoginForm() {
   const [error, setError] = useState('')
   
   const callbackUrl = searchParams.get('callbackUrl') || '/'
-  const inputStyle = 'text-gray-500 px-2 py-1 rounded focus:outline-none'
+  const inputStyle = 'bg-gray-200 text-gray-500 px-4 py-2 rounded focus:outline-none'
 
   async function login() {
     try {
@@ -64,7 +64,7 @@ export default function LoginForm() {
       />
       <button
         type='submit'
-        className='bg-gray-500 py-2 rounded hover:bg-gray-600'
+        className='bg-gray-900 py-4 text-white rounded hover:bg-gray-600'
       >
         LOGIN
       </button>
@@ -72,7 +72,7 @@ export default function LoginForm() {
         Don't have an account? {' '}
         <Link
           href={'/register'}
-          className='text-gray-400 hover:text-gray-500'
+          className='text-gray-400 hover:text-gray-600'
         >
           Create one.
         </Link>
