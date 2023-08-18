@@ -1,17 +1,4 @@
-import { PrismaStats, Stats } from "./types"
-
-export function convertPrismaStatstoJSStats(stat: PrismaStats) {
-  return {
-    id: stat.id,
-    user: stat.user,
-    createdAt: stat.createdAt,
-    gallons: Number(stat.gallons),
-    pricePer: Number(stat.pricePer),
-    total: Number(stat.total),
-    mileage: stat.mileage,
-    location: stat.location
-  }
-}
+import { Stats } from "@/types"
 
 export function getQuarterDates(date: Date) {
   const currYear = date.getFullYear()
@@ -75,8 +62,8 @@ export function standardizeMileagesPerQuarter(stats: Stats[]) {
 
   return stats.map((stat) => {
     return {
-      y: stat.mileage - startMileage,
-      x: Math.floor((stat.createdAt.getTime() - startDate.getTime()) / (1000 * 3600 * 24))
+      x: Math.floor((stat.createdAt.getTime() - startDate.getTime()) / (1000 * 3600 * 24)),
+      y: stat.mileage - startMileage
     }
   })
 }

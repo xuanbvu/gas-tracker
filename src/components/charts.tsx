@@ -15,7 +15,7 @@ import {
 import 'chartjs-adapter-date-fns'
 import { Line } from 'react-chartjs-2'
 import { ChartProps } from '@/types'
-import { standardizeMileagesPerQuarter } from '@/functions'
+import { standardizeMileagesPerQuarter } from '@/functions/charts'
 
 ChartJS.register(
   TimeScale,
@@ -38,14 +38,6 @@ const options = {
     display: true,
     text: 'Line Chart'
   },
-  // scales: {
-  //   x: {
-  //     type: 'time',
-  //     time: {
-  //       unit: 'month'
-  //     }
-  //   }
-  // }
 } as const
 
 export default function StandardizedMileageLineChart({ currStats, prevStats }: ChartProps) {
@@ -57,14 +49,14 @@ export default function StandardizedMileageLineChart({ currStats, prevStats }: C
         data: standardizeMileagesPerQuarter(currStats),
         borderColor: 'rgb(59, 130, 246)',
         backgroundColor: 'rgba(59, 130, 246, 0.5)',
-        tension: 0.4,
+        tension: 0.5,
       },
       {
         label: 'Previous Quarter',
         data: standardizeMileagesPerQuarter(prevStats),
         borderColor: 'rgba(0, 0, 0, 0.5)',
         backgroundColor: 'rgba(0, 0, 0, 0.25)',
-        tension: 0.4,
+        tension: 0.5,
         fill: true
       }
     ]

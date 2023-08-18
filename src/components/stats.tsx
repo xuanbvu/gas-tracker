@@ -1,5 +1,6 @@
 "use client"
 
+import { getAvgPrice } from "@/functions/stats"
 import { type Stats } from "@/types"
 import { BiSolidDownArrow, BiSolidUpArrow } from 'react-icons/bi'
 
@@ -13,6 +14,8 @@ export default function StatsItem({ stat, avgPrice }: StatsItemProps) {
   const pricePer = Number(stat.pricePer)
   const total = Number(stat.total)
 
+  const lteAvg = pricePer > Number(avgPrice.toFixed(2))
+
   return (
     <div className="flex items-center gap-5 border-b-2 py-2 px-5">
       <p className="text-xl font-bold">{stat.mileage}</p>
@@ -21,8 +24,8 @@ export default function StatsItem({ stat, avgPrice }: StatsItemProps) {
         <p>{stat.createdAt.toLocaleDateString('default', { month: 'long', day: 'numeric' })}</p>
       </div>
       <div className="flex items-center gap-1">
-        <p className="text-xl font-bold text-gray-500">${pricePer.toFixed(2)}/gal</p>
-        <p>{pricePer > avgPrice ? <BiSolidUpArrow color="red" /> : <BiSolidDownArrow />}</p>
+        <p className={`${lteAvg ? 'text-red-500' : 'text-green-500'} text-xl font-bold`}>${pricePer.toFixed(2)}/gal</p>
+        <p>{lteAvg ? <BiSolidUpArrow color="red" /> : <BiSolidDownArrow color="limegreen" />}</p>
       </div>
     </div>
   )

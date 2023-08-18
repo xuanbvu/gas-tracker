@@ -1,70 +1,11 @@
 import { getServerSession } from 'next-auth'
 import { authOptions } from "./api/auth/[...nextauth]/route"
 import { LoginButton, LogoutButton } from '../components/auth'
-import { prisma } from '@/db'
+import { convertPrismaStatstoJSStats } from '@/functions/conversions'
+import { getRecentStats, getAvgPrice, getCurrQuarterStats, getPrevQuarterStats } from '@/functions/stats'
 import StatsItem from '@/components/stats'
 import StandardizedMileageLineChart from '@/components/charts'
-import { convertPrismaStatstoJSStats, getQuarterDates, getPrevQuarterDates } from '@/functions'
 import Link from 'next/link'
-
-function getRecentStats(id: string, num: number) {
-  return prisma.stats.findMany({
-    where: {
-      user: {
-        equals: id
-      }
-    },
-    orderBy: {
-      createdAt: 'desc'
-    },
-    take: num
-  })
-}
-
-function getAvgPrice(id: string) {
-  return prisma.stats.aggregate({
-    _avg: {
-      pricePer: true
-    },
-    where: {
-      user: {
-        equals: id
-      }
-    },
-  })
-}
-
-function getCurrQuarterStats(id: string) {
-  const { startDate, endDate } = getQuarterDates(new Date())
-  
-  return prisma.stats.findMany({
-    where: {
-      user: {
-        equals: id
-      },
-      createdAt: {
-        lte: endDate,
-        gte: startDate
-      }
-    }
-  })
-}
-
-function getPrevQuarterStats(id: string) {
-  const { startDate, endDate } = getPrevQuarterDates(new Date())
-
-  return prisma.stats.findMany({
-    where: {
-      user: {
-        equals: id
-      },
-      createdAt: {
-        lte: endDate,
-        gte: startDate
-      }
-    }
-  })
-}
 
 export default async function Home() {
   const session = await getServerSession(authOptions)
