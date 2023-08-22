@@ -8,6 +8,7 @@ import { BsFillArrowUpCircleFill, BsFillArrowDownCircleFill } from 'react-icons/
 import StatsItem from '@/components/stats'
 import StandardizedMileageLineChart from '@/components/charts'
 import Link from 'next/link'
+import { Calendar } from '@/components/calendars'
 
 export default async function Home() {
   const session = await getServerSession(authOptions)
@@ -44,8 +45,9 @@ export default async function Home() {
             prevStats={prevQuarterStats.map((stat) => convertPrismaStatstoJSStats(stat))}
           />
         </div>
-        <div className={`${boxStyle}`}>
-          Calendar here
+        <div className={`${boxStyle} py-5 px-3`}>
+          <Calendar startDate={new Date('08/16/2023')} endDate={new Date()} />
+          <p>It's been <span>4 days</span> since your last refill</p>
         </div>
         <div className='col-span-2'>
           <div className='flex mb-2 justify-between'>
