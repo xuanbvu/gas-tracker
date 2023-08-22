@@ -14,7 +14,7 @@ export default function LoginForm() {
   const [error, setError] = useState('')
   
   const callbackUrl = searchParams.get('callbackUrl') || '/'
-  const inputStyle = 'bg-gray-200 text-gray-500 px-4 py-2 rounded focus:outline-none'
+  const inputStyle = 'bg-white border-2 border-gray-300 text-black px-4 py-2 rounded outline-none'
 
   async function login() {
     try {
@@ -25,7 +25,7 @@ export default function LoginForm() {
         callbackUrl
       })
 
-      if(!res?.error) router.push(callbackUrl)
+      if (!res?.error) router.push(callbackUrl)
       else {
         setError('Incorrect username or password.')
         setUsername('')
@@ -41,7 +41,7 @@ export default function LoginForm() {
     <form
       onSubmit={login}
       method='post'
-      className='grid gap-4 w-1/2 m-auto'
+      className='flex flex-col gap-4'
     >
       { error && <p className='text-red-500'>{error}</p>}
       <input
@@ -64,7 +64,7 @@ export default function LoginForm() {
       />
       <button
         type='submit'
-        className='bg-gray-900 py-4 text-white rounded hover:bg-gray-600'
+        className='bg-orange-700 py-4 text-white font-semibold rounded hover:bg-orange-800'
       >
         LOGIN
       </button>
@@ -72,7 +72,7 @@ export default function LoginForm() {
         Don't have an account? {' '}
         <Link
           href={'/register'}
-          className='text-gray-400 hover:text-gray-600'
+          className='text-gray-500 hover:text-orange-700 font-medium'
         >
           Create one.
         </Link>

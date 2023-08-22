@@ -15,13 +15,13 @@ export default function RegisterForm({ createUser }: RegisterFormProps) {
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
 
-  const inputStyle = 'bg-gray-200 text-gray-500 px-4 py-2 rounded focus:outline-none'
+  const inputStyle = 'bg-white border-2 border-gray-300 text-black px-4 py-2 rounded outline-none'
   
   async function register() {
     try {
       const res = await createUser(username, password)
 
-      if(res) setError(res)
+      if (res) setError(res)
       else router.push('/login')
     }
     catch(err: any) {
@@ -33,7 +33,7 @@ export default function RegisterForm({ createUser }: RegisterFormProps) {
     <form
       onSubmit={register}
       method='post'
-      className='grid gap-4 w-1/2 m-auto'
+      className='flex flex-col gap-4'
     >
       { error && <p className='text-red-500'>{error}</p>}
       <input
@@ -56,7 +56,7 @@ export default function RegisterForm({ createUser }: RegisterFormProps) {
       />
       <button
         type='submit'
-        className='bg-gray-900 py-4 text-white rounded hover:bg-gray-600'
+        className='bg-orange-700 py-4 text-white font-semibold rounded hover:bg-orange-800'
       >
         REGISTER
       </button>
@@ -64,7 +64,7 @@ export default function RegisterForm({ createUser }: RegisterFormProps) {
         Already have an account? {' '}
         <Link
           href={'/login'}
-          className='text-gray-400 hover:text-gray-600'
+          className='text-gray-500 hover:text-orange-700 font-medium'
         >
           Sign in.
         </Link>

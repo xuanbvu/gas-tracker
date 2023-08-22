@@ -1,12 +1,22 @@
 "use client"
 
-import { getAvgPrice } from "@/functions/stats"
 import { type Stats } from "@/types"
 import { BiSolidDownArrow, BiSolidUpArrow } from 'react-icons/bi'
 
 type StatsItemProps = {
   stat: Stats
   avgPrice: number
+}
+
+function formatDate(date: Date) {
+  const currYear = new Date().getFullYear()
+  const year = date.getFullYear()
+
+  if (currYear === year) {
+    return date.toLocaleDateString('default', { month: 'numeric', day: 'numeric' })
+  } else {
+    return date.toLocaleDateString('default', { month: 'numeric', day: 'numeric', year: '2-digit' })
+  }
 }
 
 export default function StatsItem({ stat, avgPrice }: StatsItemProps) {
@@ -17,15 +27,14 @@ export default function StatsItem({ stat, avgPrice }: StatsItemProps) {
   const lteAvg = pricePer > Number(avgPrice.toFixed(2))
 
   return (
-    <div className="flex items-center gap-5 border-b-2 py-2 px-5">
-      <p className="text-xl font-bold">{stat.mileage}</p>
-      <div>
-        <p className="text-lg"><span className="font-semibold">{gallons.toFixed(3)}</span> gal @ <span className="font-semibold">${total.toFixed(2)}</span></p>
-        <p>{stat.createdAt.toLocaleDateString('default', { month: 'long', day: 'numeric' })}</p>
-      </div>
-      <div className="flex items-center gap-1">
-        <p className={`${lteAvg ? 'text-red-500' : 'text-green-500'} text-xl font-bold`}>${pricePer.toFixed(2)}/gal</p>
-        <p>{lteAvg ? <BiSolidUpArrow color="red" /> : <BiSolidDownArrow color="limegreen" />}</p>
+    <div className="grid grid-cols-5 items-center justify-between border-b-2 py-3 px-5">
+      <p className="font-medium">{formatDate(stat.createdAt)}</p>
+      <p className="text-xl font-bold">{stat.mileage} mi</p>
+      <p className="text-lg">{gallons.toFixed(3)} gal</p>
+      <p className="text-lg">${total.toFixed(2)}</p>
+      <div className="flex items-center gap-2 justify-end">
+        <p className='text-xl font-bold text-gray-500'>${pricePer.toFixed(2)}/gal</p>
+        <p>{lteAvg ? <BiSolidUpArrow color="#EF4444" /> : <BiSolidDownArrow color="#22C55E" />}</p>
       </div>
     </div>
   )

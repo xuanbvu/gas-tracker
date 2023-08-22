@@ -2,6 +2,10 @@
 
 import { signIn, signOut } from 'next-auth/react'
 
+type StyleProps = {
+  style?: string
+}
+
 export function LoginButton() {
   return (
     <button onClick={() => signIn()}>
@@ -10,9 +14,9 @@ export function LoginButton() {
   )
 }
 
-export function LogoutButton() {
+export function LogoutButton({ style } : StyleProps) {
   return (
-    <button onClick={() => signOut()}>
+    <button onClick={() => signOut()} className={style}>
       Sign out
     </button>
   )

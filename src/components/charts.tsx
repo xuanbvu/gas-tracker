@@ -31,33 +31,35 @@ ChartJS.register(
 
 const options = {
   responsive: true,
-  legend: {
-    position: 'top' as const,
+  plugins: {
+    legend: { display: false },
+    tooltip: { enabled: false }
   },
-  title: {
-    display: true,
-    text: 'Line Chart'
-  },
+  scales: {
+    x: {
+      display: false,
+      type: 'linear'
+    },
+    y: { position: 'right' }
+  }
 } as const
 
 export default function StandardizedMileageLineChart({ currStats, prevStats }: ChartProps) {
   const data = {
-    labels: Array.from(Array(90).keys()),
     datasets: [
       {
-        label: 'Current Quarter',
         data: standardizeMileagesPerQuarter(currStats),
-        borderColor: 'rgb(59, 130, 246)',
-        backgroundColor: 'rgba(59, 130, 246, 0.5)',
+        borderColor: '#0369A1',
+        backgroundColor: '#0369A1',
         tension: 0.5,
       },
       {
-        label: 'Previous Quarter',
         data: standardizeMileagesPerQuarter(prevStats),
-        borderColor: 'rgba(0, 0, 0, 0.5)',
-        backgroundColor: 'rgba(0, 0, 0, 0.25)',
+        borderColor: '#E0F2FE',
+        backgroundColor: '#E0F2FE',
         tension: 0.5,
-        fill: true
+        fill: true,
+        pointRadius: 0
       }
     ]
   }
