@@ -30,6 +30,20 @@ function populateDays() {
 export function Calendar({ startDate, endDate } : CalendarProps) {
   const weekdays = ['S', 'M', 'T', 'W', 'T', 'F', 'S']
   const currDays = populateDays()
+
+  function calculateRangeStyle(day: number | null) {
+    let style = ""
+  
+    if (startDate.getMonth() < endDate.getMonth()) {
+      startDate = new Date(endDate.getFullYear(), endDate.getMonth(), 1)
+    }
+  
+    if (day && day >= startDate.getDate() && day <= endDate.getDate()) style += 'bg-orange-300 '
+    if (day === startDate.getDate() && startDate.getMonth() < endDate.getMonth()) style += 'bg-orange-500 rounded-bl-full rounded-tl-full '
+    if (day === endDate.getDate()) style += 'rounded-br-full rounded-tr-full '
+
+    return style
+  }
   
   return (
     <div className="grid grid-cols-7 gap-y-5">
@@ -38,11 +52,7 @@ export function Calendar({ startDate, endDate } : CalendarProps) {
       </div>
       {currDays.map((day) => {
         return (
-          <div className={`
-            ${day && day >= startDate.getDate() && day <= endDate.getDate() && 'bg-orange-300 '}
-            ${day === startDate.getDate() && 'bg-orange-500 rounded-bl-full rounded-tl-full'}
-            ${day === endDate.getDate() && 'rounded-br-full rounded-tr-full'}
-          `}>
+          <div className={calculateRangeStyle(day) || ''}>
             <p className="text-center text-lg">{day}</p>
           </div>
         )

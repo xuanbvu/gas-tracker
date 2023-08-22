@@ -15,6 +15,20 @@ export function getRecentStats(id: string, num: number) {
   })
 }
 
+export function getMostRecentStat(id: string) {
+  return prisma.stats.findMany({
+    where: {
+      user: {
+        equals: id
+      }
+    },
+    orderBy: {
+      createdAt: 'desc'
+    },
+    take: 1
+  })
+}
+
 export function getAllStats(id: string) {
   return prisma.stats.findMany({
     where: {

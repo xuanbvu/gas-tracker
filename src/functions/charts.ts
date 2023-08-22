@@ -1,4 +1,5 @@
 import { Stats } from "@/types"
+import { calculateDaysBetween } from "./helper"
 
 export function getQuarterDates(date: Date) {
   const currYear = date.getFullYear()
@@ -62,7 +63,7 @@ export function standardizeMileagesPerQuarter(stats: Stats[]) {
 
   return stats.map((stat) => {
     return {
-      x: Math.floor((stat.createdAt.getTime() - startDate.getTime()) / (1000 * 3600 * 24)),
+      x: calculateDaysBetween(startDate, stat.createdAt),
       y: stat.mileage - startMileage
     }
   })

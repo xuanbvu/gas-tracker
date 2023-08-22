@@ -2,22 +2,25 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from "./api/auth/[...nextauth]/route"
 import { LoginButton } from '../components/auth'
 import { convertPrismaStatstoJSStats } from '@/functions/conversions'
-import { getRecentStats, getAvgPrice, getCurrQuarterStats, getPrevQuarterStats } from '@/functions/stats'
+import { getRecentStats, getAvgPrice, getCurrQuarterStats, getPrevQuarterStats, getMostRecentStat } from '@/functions/stats'
 import { Layout } from '@/components/layout/sidebar'
 import { BsFillArrowUpCircleFill, BsFillArrowDownCircleFill } from 'react-icons/bs'
 import StatsItem from '@/components/stats'
 import StandardizedMileageLineChart from '@/components/charts'
 import Link from 'next/link'
 import { Calendar } from '@/components/calendars'
+import { calculateDaysBetween } from '@/functions/helper'
 
 export default async function Home() {
   const session = await getServerSession(authOptions)
 
   const userId = session?.user.id || ''
+
   const recentStats = await getRecentStats(userId, 5)
   const avgPricePer = Number((await getAvgPrice(userId))._avg.pricePer)
   const currQuarterStats = await getCurrQuarterStats(userId)
   const prevQuarterStats = await getPrevQuarterStats(userId)
+  const latestStat = (await getMostRecentStat(userId))[0]
 
   if (!session) return (
     <LoginButton />
@@ -25,7 +28,7 @@ export default async function Home() {
 
   const quarterMileage = currQuarterStats.slice(-1)[0].mileage - currQuarterStats[0].mileage
   const comparison = { direction: 'more', percent: 5.6 } // MOCKED DATA
-  const boxStyle = 'bg-white rounded-lg shadow-lg'
+  const boxStyle = 'bg-white rounded-lg shadow-lg h-fit'
 
   return (
     <Layout>
@@ -46,8 +49,10 @@ export default async function Home() {
           />
         </div>
         <div className={`${boxStyle} py-5 px-3`}>
-          <Calendar startDate={new Date('08/16/2023')} endDate={new Date()} />
-          <p>It's been <span>4 days</span> since your last refill</p>
+          <Calendar startDate={latestStat.createdAt} endDate={new Date()} />
+          <p className='text-lg mt-5'>
+            It's been <span className='font-bold'>{calculateDaysBetween(latestStat.createdAt, new Date())} days</span> since your last refill.
+          </p>
         </div>
         <div className='col-span-2'>
           <div className='flex mb-2 justify-between'>
