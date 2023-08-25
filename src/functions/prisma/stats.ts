@@ -1,5 +1,5 @@
 import { prisma } from "@/db"
-import { getPrevQuarterDates, getQuarterDates } from "./charts"
+import { getPrevQuarterDates, getQuarterDates } from "../charts"
 
 export function getRecentStats(id: string, num: number) {
   return prisma.stats.findMany({

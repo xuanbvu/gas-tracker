@@ -1,6 +1,6 @@
 import { getServerSession } from "next-auth"
 import { authOptions } from "../api/auth/[...nextauth]/route"
-import { getAllStats, getAvgPrice } from "@/functions/stats"
+import { getAllStats, getAvgPrice } from "@/functions/prisma/stats"
 import { convertPrismaStatstoJSStats } from "@/functions/conversions"
 import StatsItem from "@/components/stats"
 

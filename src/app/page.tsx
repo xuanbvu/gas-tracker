@@ -2,7 +2,7 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from "./api/auth/[...nextauth]/route"
 import { LoginButton } from '../components/auth'
 import { convertPrismaStatstoJSStats } from '@/functions/conversions'
-import { getRecentStats, getAvgPrice, getCurrQuarterStats, getPrevQuarterStats, getMostRecentStat } from '@/functions/stats'
+import { getRecentStats, getAvgPrice, getCurrQuarterStats, getPrevQuarterStats, getMostRecentStat } from '@/functions/prisma/stats'
 import { BsFillArrowUpCircleFill, BsFillArrowDownCircleFill } from 'react-icons/bs'
 import { Calendar } from '@/components/calendars'
 import { calculateDaysBetween } from '@/functions/helper'
