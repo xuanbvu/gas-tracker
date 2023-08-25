@@ -14,25 +14,27 @@ import { calculateDaysBetween } from '@/functions/helper'
 export default async function Home() {
   const session = await getServerSession(authOptions)
 
-  const userId = session?.user.id || ''
-
-  const recentStats = await getRecentStats(userId, 5)
-  const avgPricePer = Number((await getAvgPrice(userId))._avg.pricePer)
-  const currQuarterStats = await getCurrQuarterStats(userId)
-  const prevQuarterStats = await getPrevQuarterStats(userId)
-  const latestStat = (await getMostRecentStat(userId))[0]
-
   if (!session) return (
     <LoginButton />
   )
 
+  const userId = session?.user.id || ''
+  const recentStats = await getRecentStats(userId, 5)
+  
+  const currQuarterStats = await getCurrQuarterStats(userId)
+  const prevQuarterStats = await getPrevQuarterStats(userId)
+  const latestStat = (await getMostRecentStat(userId))[0]
+
+  const avgPricePer = Number((await getAvgPrice(userId))._avg.pricePer)
   const quarterMileage = currQuarterStats.slice(-1)[0].mileage - currQuarterStats[0].mileage
   const comparison = { direction: 'more', percent: 5.6 } // MOCKED DATA
+  
   const boxStyle = 'bg-white rounded-lg shadow-lg h-fit'
 
   return (
     <Layout>
       <div className='grid grid-cols-3 gap-10'>
+        {/* mileage graph */}
         <div className={`${boxStyle} px-8 py-5 col-span-2`}>
           <h1>Total mileage this quarter</h1>
           <p className='font-bold text-5xl my-2'>{quarterMileage} mi</p>
@@ -48,12 +50,14 @@ export default async function Home() {
             prevStats={prevQuarterStats.map((stat) => convertPrismaStatstoJSStats(stat))}
           />
         </div>
+        {/* calendar */}
         <div className={`${boxStyle} py-5 px-3`}>
           <Calendar startDate={latestStat.createdAt} endDate={new Date()} />
           <p className='text-lg mt-5'>
             It's been <span className='font-bold'>{calculateDaysBetween(latestStat.createdAt, new Date())} days</span> since your last refill.
           </p>
         </div>
+        {/* recent refills */}
         <div className='col-span-2'>
           <div className='flex mb-2 justify-between'>
             <h1 className='uppercase font-medium'>Recent Fills</h1>
