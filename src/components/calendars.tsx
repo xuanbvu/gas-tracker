@@ -48,12 +48,12 @@ export function Calendar({ startDate, endDate } : CalendarProps) {
   return (
     <div className="grid grid-cols-7 gap-y-5">
       <div className="grid grid-cols-7 col-span-7 font-bold text-xl">
-        {weekdays.map((day) => <p className="text-center">{day}</p>)}
+        {weekdays.map((weekday, i) => <p className="text-center" key={`dashboard-calendar-weekday${i}`}>{weekday}</p>)}
       </div>
-      {currDays.map((day) => {
+      {currDays.map((day, i) => {
         return (
-          <div className={calculateRangeStyle(day) || ''}>
-            <p className="text-center text-lg">{day}</p>
+          <div className={calculateRangeStyle(day) || ''} key={`dashboard-calendar-div${i}`}>
+            <p className="text-center text-lg" key={`dashboard-calendar-day${i}`}>{day}</p>
           </div>
         )
       })}
