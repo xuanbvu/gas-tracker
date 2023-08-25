@@ -3,13 +3,12 @@ import { authOptions } from "./api/auth/[...nextauth]/route"
 import { LoginButton } from '../components/auth'
 import { convertPrismaStatstoJSStats } from '@/functions/conversions'
 import { getRecentStats, getAvgPrice, getCurrQuarterStats, getPrevQuarterStats, getMostRecentStat } from '@/functions/stats'
-import { Layout } from '@/components/layout/sidebar'
 import { BsFillArrowUpCircleFill, BsFillArrowDownCircleFill } from 'react-icons/bs'
+import { Calendar } from '@/components/calendars'
+import { calculateDaysBetween } from '@/functions/helper'
 import StatsItem from '@/components/stats'
 import StandardizedMileageLineChart from '@/components/charts'
 import Link from 'next/link'
-import { Calendar } from '@/components/calendars'
-import { calculateDaysBetween } from '@/functions/helper'
 
 export default async function Home() {
   const session = await getServerSession(authOptions)
@@ -32,7 +31,7 @@ export default async function Home() {
   const boxStyle = 'bg-white rounded-lg shadow-lg h-fit'
 
   return (
-    <Layout>
+    <>
       <div className='grid grid-cols-3 gap-10'>
         {/* mileage graph */}
         <div className={`${boxStyle} px-8 py-5 col-span-2`}>
@@ -61,7 +60,9 @@ export default async function Home() {
         <div className='col-span-2'>
           <div className='flex mb-2 justify-between'>
             <h1 className='uppercase font-medium'>Recent Fills</h1>
-            <button className='uppercase font-bold hover:text-orange-700'>Add +</button>
+            <Link href='/add'>
+              <button className='uppercase font-bold hover:text-orange-700'>Add +</button>
+            </Link>
           </div>
           { recentStats.length > 0 ?
             <div className={`${boxStyle}`}>
@@ -79,6 +80,6 @@ export default async function Home() {
           }
         </div>
       </div>
-    </Layout>
+    </>
   )
 }
