@@ -13,9 +13,9 @@ function formatDate(date: Date) {
   const year = date.getFullYear()
 
   if (currYear === year) {
-    return date.toLocaleDateString('default', { month: 'numeric', day: 'numeric' })
+    return `${date.getMonth()+1}/${date.getUTCDate()}`
   } else {
-    return date.toLocaleDateString('default', { month: 'numeric', day: 'numeric', year: '2-digit' })
+    return `${date.getMonth()+1}/${date.getUTCDate()}/${year}`
   }
 }
 
